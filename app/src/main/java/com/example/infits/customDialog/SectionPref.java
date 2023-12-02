@@ -8,6 +8,7 @@ import com.example.infits.ConsultationFragment;
 import com.example.infits.DataSectionOne;
 
 public class SectionPref {
+    //SEC
 
     public static void saveform(String key,String value,int SectionValue,int previousVal,int progressVal,String sharedPrefName,Context context){
         SharedPreferences sharedPreferences = context.getSharedPreferences(sharedPrefName, Context.MODE_PRIVATE);

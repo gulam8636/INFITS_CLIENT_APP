@@ -31,6 +31,7 @@ import java.util.ArrayList;
  * create an instance of this fragment.
  */
 public class Section2Q5 extends Fragment {
+    //Android
 
     ImageButton imgBack;
     Button nextbtn;

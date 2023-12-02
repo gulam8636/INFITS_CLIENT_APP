@@ -26,7 +26,7 @@ import java.util.LinkedHashMap;
  * create an instance of this fragment.
  */
 public class SectionOneQFour extends Fragment {
-
+    //SEC
     ImageButton imgBack;
     Button nextbtn;
     TextView backbtn, hometv;

@@ -5,4 +5,5 @@
             android:scaleWidth="100%"
             android:drawable="@drawable/sec3_linear_progress_style" />
     </item>
+    <!--Sec-->
 </layer-list>

@@ -24,6 +24,7 @@ import com.example.infits.customDialog.SectionPref;
  * create an instance of this fragment.
  */
 public class Section2Q7 extends Fragment {
+    //Android
 
     ImageButton imgBack;
     Button nextbtn;

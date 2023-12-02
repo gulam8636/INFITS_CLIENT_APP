@@ -24,7 +24,7 @@ import com.example.infits.customDialog.SectionPref;
  * create an instance of this fragment.
  */
 public class SectionOneQSeven extends Fragment {
-
+    //SEC
     ImageButton imgBack;
     Button nextbtn;
     TextView backbtn, jobduratv;

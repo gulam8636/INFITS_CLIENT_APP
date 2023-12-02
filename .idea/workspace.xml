@@ -9,183 +9,8 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2aac381d-1e75-4f05-95d2-1f36e0826556" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/customDialog/CustomDialogFragment.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/customDialog/SectionPref.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/customDialog/StepTrackerService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/cancel.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/corner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/divider_background.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/light_blue_progress_sec1_style.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/lightblue_progress_sec1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/question_progres_style.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/question_shape.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/questions_progress.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/sec1_progress_shape.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/sec2_linear_progress.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/sec2_linear_progress_style.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/sec2_progress_shape.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/sec3_linear_progress.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/sec3_linear_progress_style.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/sec3_progress_shape.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/sec4_linear_progress.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/sec4_linear_progress_style.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/sec4_progress_shape.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/sec5_linear_progress.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/sec5_linear_progress_style.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/sec5_progress_shape.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/sec6_linear_progress.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/sec6_linear_progress_style.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/shape6_progress_shape.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/set_an_alarm.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/app/Infits.app.androidTest.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/app/Infits.app.androidTest.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/app/Infits.app.main.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/app/Infits.app.main.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/navEditor.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/navEditor.xml" afterDir="false" />
+    <list default="true" id="2aac381d-1e75-4f05-95d2-1f36e0826556" name="Changes" comment="Consultaion Fragment Sec2Q4">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Adapter_Todays_BreakFast.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Adapter_Todays_BreakFast.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/CameraForMealTracker.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/CameraForMealTracker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/ConsultationFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/ConsultationFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/DashBoardFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/DashBoardFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/DataFromDatabase.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/DataFromDatabase.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/FragmentCalorieConsumed.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/FragmentCalorieConsumed.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/FragmentTodays_BreakFast.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/FragmentTodays_BreakFast.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/MealtrackerFinalAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/MealtrackerFinalAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/MealtrackerTodays_Breakfast.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/MealtrackerTodays_Breakfast.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/MyService.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/MyService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section2Q1.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section2Q1.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section2Q2.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section2Q2.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section2Q3.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section2Q3.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section2Q4.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section2Q4.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section2Q5.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section2Q5.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section2Q6.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section2Q6.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section2Q7.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section2Q7.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section2Q8.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section2Q8.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section3Q1.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section3Q1.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section3Q10.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section3Q10.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section3Q11.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section3Q11.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section3Q2.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section3Q2.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section3Q3.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section3Q3.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section3Q4.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section3Q4.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section3Q5.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section3Q5.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section3Q6.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section3Q6.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section3Q7.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section3Q7.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section3Q8.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section3Q8.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section3Q9.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section3Q9.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section4Q1.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section4Q1.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section4Q2.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section4Q2.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section4Q3.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section4Q3.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section4Q4.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section4Q4.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section4Q5.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section4Q5.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section4Q6.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section4Q6.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section4Q7.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section4Q7.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section5Q1.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section5Q1.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section5Q10.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section5Q10.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section5Q11.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section5Q11.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section5Q12.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section5Q12.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section5Q13.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section5Q13.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section5Q2.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section5Q2.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section5Q3.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section5Q3.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section5Q4.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section5Q4.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section5Q5.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section5Q5.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section5Q6.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section5Q6.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section5Q7.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section5Q7.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section5Q8.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section5Q8.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section5Q9.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section5Q9.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section6Q1.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section6Q1.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section6Q10.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section6Q10.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section6Q11.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section6Q11.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section6Q12.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section6Q12.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section6Q13.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section6Q13.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section6Q14.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section6Q14.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section6Q2.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section6Q2.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section6Q3.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section6Q3.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section6Q4.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section6Q4.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section6Q5.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section6Q5.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section6Q6.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section6Q6.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section6Q7.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section6Q7.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section6Q8.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section6Q8.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section6Q9.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Section6Q9.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/SectionOneQEight.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/SectionOneQEight.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/SectionOneQFive.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/SectionOneQFive.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/SectionOneQFour.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/SectionOneQFour.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/SectionOneQOne.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/SectionOneQOne.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/SectionOneQSeven.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/SectionOneQSeven.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/SectionOneQSix.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/SectionOneQSix.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/SectionOneQThree.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/SectionOneQThree.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/SectionOneQTwo.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/SectionOneQTwo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/SleepTrackerFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/SleepTrackerFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/StepTrackerFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/StepTrackerFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Todays_BreakFast_info.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/Todays_BreakFast_info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/infits/mealInfoWithPhoto.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/infits/mealInfoWithPhoto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_calorie_tracker.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_calorie_tracker.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_mealtracker_todays__breakfast.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_mealtracker_todays__breakfast.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section2_q1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section2_q1.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section2_q2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section2_q2.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section2_q3.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section2_q3.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section2_q4.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section2_q4.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section2_q5.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section2_q5.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section2_q6.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section2_q6.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section2_q7.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section2_q7.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section2_q8.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section2_q8.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section3_q1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section3_q1.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section3_q10.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section3_q10.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section3_q11.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section3_q11.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section3_q2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section3_q2.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section3_q3.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section3_q3.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section3_q4.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section3_q4.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section3_q5.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section3_q5.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section3_q6.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section3_q6.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section3_q7.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section3_q7.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section3_q8.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section3_q8.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section3_q9.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section3_q9.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section4_q1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section4_q1.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section4_q2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section4_q2.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section4_q3.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section4_q3.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section4_q4.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section4_q4.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section4_q5.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section4_q5.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section4_q6.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section4_q6.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section4_q7.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section4_q7.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section5_q1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section5_q1.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section5_q10.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section5_q10.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section5_q11.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section5_q11.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section5_q12.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section5_q12.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section5_q13.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section5_q13.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section5_q2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section5_q2.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section5_q3.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section5_q3.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section5_q4.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section5_q4.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section5_q5.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section5_q5.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section5_q6.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section5_q6.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section5_q7.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section5_q7.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section5_q8.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section5_q8.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section5_q9.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section5_q9.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section6_q1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section6_q1.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section6_q10.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section6_q10.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section6_q11.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section6_q11.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section6_q12.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section6_q12.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section6_q13.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section6_q13.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section6_q14.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section6_q14.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section6_q2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section6_q2.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section6_q3.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section6_q3.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section6_q4.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section6_q4.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section6_q5.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section6_q5.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section6_q6.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section6_q6.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section6_q7.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section6_q7.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section6_q8.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section6_q8.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section6_q9.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section6_q9.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section_one_q_eight.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section_one_q_eight.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section_one_q_five.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section_one_q_five.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section_one_q_four.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section_one_q_four.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section_one_q_one.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section_one_q_one.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section_one_q_seven.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section_one_q_seven.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section_one_q_six.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section_one_q_six.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section_one_q_three.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section_one_q_three.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section_one_q_two.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_section_one_q_two.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_step_tracker.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_step_tracker.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/navigation/consultationform_graph.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/navigation/consultationform_graph.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/style.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/style.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -253,6 +78,11 @@
     <option name="BRANCH" value="origin/test-branch" />
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -409,6 +239,14 @@
       <option name="presentableId" value="Default" />
       <updated>1689358288903</updated>
     </task>
+    <task id="LOCAL-00001" summary="Consultaion Fragment Sec2Q4">
+      <created>1701515641237</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1701515641237</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -424,7 +262,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="MealtrackerTodays_Breakfast.java-modified" />
-    <option name="LAST_COMMIT_MESSAGE" value="MealtrackerTodays_Breakfast.java-modified" />
+    <MESSAGE value="Consultaion Fragment Sec2Q4" />
+    <option name="LAST_COMMIT_MESSAGE" value="Consultaion Fragment Sec2Q4" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

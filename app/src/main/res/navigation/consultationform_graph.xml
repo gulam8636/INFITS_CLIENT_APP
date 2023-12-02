@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/consultationform_graph"
     app:startDestination="@id/consultationFragment">
-
+    <!--Sec-->
     <fragment
         android:id="@+id/consultationFragment"
         android:name="com.example.infits.ConsultationFragment"
