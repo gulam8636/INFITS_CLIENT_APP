@@ -477,18 +477,17 @@ public class CameraForMealTracker extends AppCompatActivity {
 
                 // Convert bitmap to base64 string
                 ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-                food_eaten_photoBitmap.compress(Bitmap.CompressFormat.JPEG, 50, outputStream);
+                food_eaten_photoBitmap.compress(Bitmap.CompressFormat.JPEG, 1, outputStream);
                 String base64String = Base64.encodeToString(outputStream.toByteArray(), Base64.DEFAULT);
 
                 // Add base64 string to jsonObject1
 //                jsonObject1.put("image", base64String);
                 String uniqueID = UUID.randomUUID().toString();
-                jsonObject1.put("image",uniqueID);
+                jsonObject1.put("image",base64String);
 
                 Intent intent = new Intent(this, Activity_Todays_Breakfast.class);
                 intent.putExtra("mealInfoForPhoto", jsonObject1.toString());
                 intent.putExtra("fragment", "MealtrackerTodays_Breakfast.class");
-
                 // Save base64 string in shared preferences
                 SharedPreferences sharedPreferences = getSharedPreferences("BitMapInfo", Context.MODE_PRIVATE);
 //                SharedPreferences sharedPreferences = getSharedPreferences("", Context.MODE_PRIVATE);

@@ -4,9 +4,11 @@ import static android.content.Context.MODE_PRIVATE;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.ActivityManager;
+import android.app.AlarmManager;
 import android.app.Dialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -14,41 +16,35 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.hardware.SensorEventListener;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Bundle;
 
 import androidx.activity.OnBackPressedCallback;
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.work.Constraints;
-import androidx.work.NetworkType;
-import androidx.work.PeriodicWorkRequest;
-import androidx.work.WorkManager;
 import androidx.work.WorkRequest;
 
 import android.os.Handler;
-import android.os.PowerManager;
-import android.preference.PreferenceManager;
-import android.text.style.UpdateAppearance;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,29 +53,24 @@ import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.infits.customDialog.StepTrackerService;
 import com.tenclouds.gaugeseekbar.GaugeSeekBar;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
-import java.util.Objects;
-import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
-public class StepTrackerFragment extends Fragment implements UpdateStepCard {
+public class StepTrackerFragment extends Fragment  {
     private static final String MY_PREFERENCE_NAME = "WORKERONE";
     Float goalPercent2;
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd H:m:s");
     Handler handler = new Handler();
+   // private StepCounterViewModel viewModel;
     Thread mythread;
     Button setgoal;
     ImageButton imgback;
@@ -89,12 +80,30 @@ public class StepTrackerFragment extends Fragment implements UpdateStepCard {
     private static final int PERMISSION_REQUEST_BODY_SENSORS = 1;
     private static final int PERMISSION_REQUEST_ACTIVITY_RECOGNITION = 1000;
     private static final int PERMISSION_REQUEST_ALL_SENSORS = 100;
+    //
+    private SensorManager sensorManager;
+    private Sensor stepCounterSensor;
+    private TextView stepCountTextView;
+    private int GoalSteps;
+    private int stepPercent1;
+    private  StringRequest stringRequest;
+    private int currentsteps;
+  //  private GoalReachedReceiver goalReachedReceiver;
+    //
+    private int steps = 0;
+    private int previousStepCount = 0;
+    public final String NOTIFICATION_CHANNEL_ID = "MyNotificationChannel";
+    private SharedPreferences notificationsharedPreferences;
 
+    private static final int SENSOR_PERMISSION_REQUEST = 1;
     SharedPreferences stepPrefs;
 
     GaugeSeekBar progressBar;
+    int stepCount;
 
     static float goalVal;
+    // private int currentsteps;
+    SharedPreferences currentPreferences;
 
     float goalPercent = 0;
 
@@ -109,6 +118,9 @@ public class StepTrackerFragment extends Fragment implements UpdateStepCard {
     public StepTrackerFragment() {
 
     }
+
+
+
 
     public static StepTrackerFragment newInstance(String param1, String param2) {
         StepTrackerFragment fragment = new StepTrackerFragment();
@@ -141,14 +153,48 @@ public class StepTrackerFragment extends Fragment implements UpdateStepCard {
             }
         };
         requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
+        // resetSteps();
+
+        loadData();
+//        sensorManager = (SensorManager) requireContext().getSystemService(requireContext().SENSOR_SERVICE);
+//        stepCounterSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
+        //viewModel = new ViewModelProvider(requireActivity()).get(StepCounterViewModel.class);
 
     }
+    private BroadcastReceiver stepCountReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if ("step-count-update".equals(intent.getAction())) {
+                stepCount = intent.getIntExtra("stepCount", 0);
+                distance.setText(String.format(String.format("%.3f",(float)stepCount*0.0005)));
+                // Update UI with the new step count
+                stepCountTextView.setText(String.valueOf(stepCount));
+                calories.setText(String.valueOf((float) 0.05*stepCount));
+                float stepPercent = GoalSteps == 0 ? 0 : (int) ((stepCount * 100) / GoalSteps);
+                double stepPercent1 = Math.min(100, Math.max(0, stepPercent));
+                progressBar.setProgress((float) stepPercent1 / 100);
+            }
+        }
+    };
+    private BroadcastReceiver averageSpeedAndDistanceReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if ("averageSpeed-and-distance-update".equals(intent.getAction())) {
+              String  averageSpeed = intent.getStringExtra("averageSpeed");
+               // float speedKmH = averageSpeed * 3.6f;
+              float  distanceVal = intent.getFloatExtra("distance", 0f);
+                float distanceKm = distanceVal / 1000.0f;
+                // Update UI with the new step count
+              speed.setText(String.format(averageSpeed.substring(0, 1)));
+
+            }
+        }
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_step_tracker, container, false);
-        steps_label = view.findViewById(R.id.steps_label);
+        stepCountTextView = view.findViewById(R.id.steps_label);
         setgoal = view.findViewById(R.id.setgoal);
         imgback = view.findViewById(R.id.imgback);
         goal_step_count = view.findViewById(R.id.goal_step_count);
@@ -160,97 +206,88 @@ public class StepTrackerFragment extends Fragment implements UpdateStepCard {
         reminder = view.findViewById(R.id.reminder);
         Distance_unit = view.findViewById(R.id.distance_unit);
 
-        getPermission_Body();
-
-        //progressBar.setProgress(0.2F);
-
-        stepPrefs = PreferenceManager.getDefaultSharedPreferences(requireContext());
-        float goal = stepPrefs.getFloat("goal", 1f);
-        var steps = Math.min(stepPrefs.getFloat("steps", 0f), goal);
-
-        float goalPercent = stepPrefs.getFloat("goalPercent", 0f);
-
-        //progressBar.setProgress(goalPercent);
-        goal_step_count.setText(String.valueOf((int) goal));
-
-        steps_label.setText(String.valueOf(steps));
+        getPastActivity(pastActivity);
 
 
-        mythread = new Thread(new Runnable() {
+        SharedPreferences sharedPreferences1 = getActivity().getSharedPreferences("GOALVALUE", MODE_PRIVATE);
+        GoalSteps = sharedPreferences1.getInt("goalValue", 0);
+        goal_step_count.setText(String.valueOf(sharedPreferences1.getInt("goalValue", 0)));
+        //goalReachedReceiver = new GoalReachedReceiver();
+        IntentFilter filter = new IntentFilter("GOAL_REACHED");
+       // requireActivity().registerReceiver(goalReachedReceiver, filter);
+        resetSteps();
+        notificationsharedPreferences = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        setgoal.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void run() {
+            public void onClick(View view) {
+                FetchTrackerInfos.flag_steps = 0;
+                final Dialog dialog = new Dialog(getActivity());
+                dialog.setCancelable(true);
+                dialog.setContentView(R.layout.setgoaldialog);
+                dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                EditText goal = dialog.findViewById(R.id.goal);
+                Button save = dialog.findViewById(R.id.save_btn_steps);
+                dialog.show();
+                save.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        int goalValue = Integer.parseInt(goal.getText().toString());
+                        resetSteps();
+                        goal_step_count.setText(String.valueOf(goalValue));
+                        GoalSteps = goalValue;
+                        previousStepCount = steps;
+                        stepCountTextView.setText("0");
+                        progressBar.setProgress(0);
+                        saveData();
+                        SharedPreferences sharedPreferences4 = requireContext().getSharedPreferences("PREFDATA",MODE_PRIVATE);
+                        SharedPreferences.Editor editor4 = sharedPreferences4.edit();
+                        editor4.putBoolean("PREF",false);
+                        editor4.apply();
 
-                if (goalVal >= FetchTrackerInfos.currentSteps && goalVal != 1 && goalVal != 0) {
-                    Log.d("completed", "1");
+                        Intent intent = new Intent(requireContext(), StepTrackerService.class);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            requireContext().startForegroundService(intent);
+                        }
+                        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("GOALVALUE", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putInt("goalValue", goalValue);
+                        editor.apply();
 
-                    //Toast.makeText(getActivity().getApplicationContext(), "Steps Completed", Toast.LENGTH_SHORT).show();
-                    mythread.interrupt();
+                        saveGoal(sharedPreferences4.getInt("goalValue",0));
+                        //notification
+                        SharedPreferences.Editor editor2 = notificationsharedPreferences.edit();
+                        editor2.putBoolean("notification_sent", false);
+                        editor2.apply();
+                      //  goalupdate();
+                        dialog.dismiss();
+                    }
+                });
 
-                }
-
-                steps_label.setText(String.valueOf(FetchTrackerInfos.currentSteps));
-                handler.postDelayed(this, 0);
-
-                goalPercent2 = (float) (FetchTrackerInfos.currentSteps) / (int) goalVal;
-                progressBar.setProgress(goalPercent2);
-
-                speed.setText(FetchTrackerInfos.Avg_speed.substring(0, 1));
-
-
-                if (FetchTrackerInfos.Distance > 1) {
-                    distance.setText(String.format("%.3f", (FetchTrackerInfos.Distance)));
-                    Distance_unit.setText("Km");
-                } else {
-                    distance.setText(String.format("%.2f", FetchTrackerInfos.Distance * 1000));
-                    Distance_unit.setText("Meters");
-                }
-
-
-                calories.setText(String.format("%.2f", (FetchTrackerInfos.Calories)));
 
             }
-
+        });
+        imgback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (getArguments() != null && getArguments().getBoolean("notification") /* coming from notification */) {
+                    startActivity(new Intent(getActivity(), DashBoardMain.class));
+                    requireActivity().finish();
+                } else {
+                    Navigation.findNavController(v).navigate(R.id.action_stepTrackerFragment_to_dashBoardFragment);
+                    FragmentManager manager = getActivity().getSupportFragmentManager();
+                    manager.popBackStack();
+                }
+            }
         });
 
-        mythread.start();
-        updateDetails();
-
-
+        return view;
+    }
+    private void getPastActivity(RecyclerView pastActivity) {
         ArrayList<String> dates = new ArrayList<>();
         ArrayList<String> datas = new ArrayList<>();
-
-//        if (DataFromDatabase.stepsGoal.equals(null)){
-//            goal_step_count.setText("5000");
-//        }
-//        else{
-//            goal_step_count.setText(DataFromDatabase.stepsGoal+" ml");
-//            try {
-//                 = Integer.parseInt(DataFromDatabase.waterGoal);
-//            }catch (NumberFormatException ex){
-//                goal = 1800;
-//                waterGoal.setText(1800+" ml");
-//                System.out.println(ex);
-//            }
-//        }
-//
-//        if (DataFromDatabase.stepsStr.equals(null)|| DataFromDatabase.stepsStr.equals("null")){
-//            steps_label.setText("0");
-//        }
-//        else{
-//            steps_label.setText(DataFromDatabase.waterStr+" ml");
-//            try {
-//                 = Integer.parseInt(DataFromDatabase.waterStr);
-//                waterGoalPercent.setText(String.valueOf(calculateGoal()));
-//            }catch (NumberFormatException ex){
-//                consumedInDay = 0;
-//                waterGoalPercent.setText(String.valueOf(calculateGoal()));
-//            }
-//        }
-
-        //String url = String.format("%spastActivity.php", DataFromDatabase.ipConfig);
-        String url = "https://infits.in/androidApi/pastActivity.php";
-
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, response -> {
+        //String url = "https://infits.in/androidApi/pastActivity.php";
+       String url= "http://192.168.27.94/phpProjects/pastActivity.php";
+        stringRequest = new StringRequest(Request.Method.POST, url, response -> {
             try {
                 Log.d("dattaaaa:", response.toString());
                 JSONObject jsonObject = new JSONObject(response);
@@ -287,327 +324,236 @@ public class StepTrackerFragment extends Fragment implements UpdateStepCard {
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(50000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-
-        PowerManager powerManager = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-            powerManager = (PowerManager) getActivity().getSystemService(getActivity().POWER_SERVICE);
-        }
-        PowerManager.WakeLock wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
-                "MyApp::MyWakelockTag");
-        wakeLock.acquire();
-
-        setgoal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FetchTrackerInfos.flag_steps=0;
-                final Dialog dialog = new Dialog(getActivity());
-                dialog.setCancelable(true);
-                dialog.setContentView(R.layout.setgoaldialog);
-                dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-                EditText goal = dialog.findViewById(R.id.goal);
-                Button save = dialog.findViewById(R.id.save_btn_steps);
-                FetchTrackerInfos.currentSteps = 0;
-                FetchTrackerInfos.flag_steps = 0;
-                try {
-                    if (!loadTotalFromPrefString(requireActivity(),"Steps_db").equals("")){
-                        WorkManager.getInstance(getActivity()).cancelWorkById(UUID.fromString(loadTotalFromPrefString(requireActivity(),"Steps_db")));
-                        saveTotalInPref(requireActivity(),"","Steps_db");
-                        Toast.makeText(requireActivity(), "Cancel Work", Toast.LENGTH_SHORT).show();
-                    }
-                }catch (Exception e){
-                    Toast.makeText(requireActivity(), e.toString(), Toast.LENGTH_SHORT).show();
-                }
-
-
-                if (true) {
-                    Intent serviceIntent = new Intent(requireContext(), MyService.class);
-                    requireActivity().stopService(serviceIntent);
-                    mythread.interrupt();
-                }
-
-
-//                steps_label.setText(String.valueOf(0));
-                save.setOnClickListener(v -> {
-//                    FetchTrackerInfos.previousStep = FetchTrackerInfos.totalSteps;
-                    goal_step_count.setText(goal.getText().toString());
-                    progressBar.setProgress(0);
-                    steps_label.setText(String.valueOf(0));
-
-                    if (goal.getText().toString().equals("")) {
-                        Toast.makeText(getActivity().getApplicationContext(), "fill goal", Toast.LENGTH_SHORT).show();
-                    } else
-                        goalVal = Integer.parseInt(goal.getText().toString());
-
-                    FetchTrackerInfos.stop_steps = (int) goalVal;
-                    SharedPreferences stepPrefs = PreferenceManager.getDefaultSharedPreferences(requireContext());
-                    SharedPreferences.Editor editor = stepPrefs.edit();
-                    editor.putFloat("goal", goalVal);
-                    editor.putFloat("steps", 0f);
-                    editor.putFloat("goalPercent", 0f);
-                    editor.apply();
-
-                    SharedPreferences preferences = requireActivity().getSharedPreferences("notificationDetails", MODE_PRIVATE);
-                    boolean stepNotificationPermission = preferences.getBoolean("stepSwitch", true);
-
-
-                    if (stepNotificationPermission) {
-                        // we have permission to run step service
-                        if (!foregroundServiceRunning()) {
-                            Intent serviceIntent = new Intent(requireContext(), MyService.class);
-
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                serviceIntent.putExtra("goal", goalVal);
-                                serviceIntent.putExtra("notificationPermission", stepNotificationPermission);
-                                requireContext().startForegroundService(serviceIntent);
-
-                            } else {
-                                requireContext().startService(serviceIntent);
-                            }
-
-
-                        }
-                    }
-                    //String url = String.format("%supdatestepgoal.php", DataFromDatabase.ipConfig);
-                    String url = "https://infits.in/androidApi/updatestepgoal.php";
-                    final StringRequest requestGoal = new StringRequest(Request.Method.POST, url, response -> {
-                        try {
-                            Toast.makeText(requireContext(),"Updated Goal", Toast.LENGTH_LONG).show();
-                            Log.e("goal","success");
-                            SharedPreferences sharedPreferences = getContext().getSharedPreferences("stepsGoalInt",MODE_PRIVATE);
-                            SharedPreferences.Editor editor1 = sharedPreferences.edit();
-                            editor1.putInt("stepTrackerGoal", (int) goalVal);
-                            editor1.apply();
-                            if (loadTotalFromPrefString(requireActivity(),"Steps_db").equals("")){
-                                //Constraints
-                                Constraints constraints = new Constraints.Builder()
-                                        .setRequiredNetworkType(NetworkType.CONNECTED)
-                                        .build();
-                                //for periodicWork
-                                workRequest = new PeriodicWorkRequest.Builder(
-                                        WorkerForUpdateStepDetailsInDb.class,
-                                        15,   //minimum 15 minute
-                                        TimeUnit.MINUTES
-                                ).addTag("WORKUPDATESTEP").setConstraints(constraints).build();
-                                saveTotalInPref(getActivity(),workRequest.getStringId(),"Steps_db");
-                                WorkManager.getInstance(requireActivity()).enqueue(workRequest);
-                                Toast.makeText(requireActivity(), "Worker Set", Toast.LENGTH_SHORT).show();
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }, error -> {
-                        Toast.makeText(requireContext(), "Updated Goal error", Toast.LENGTH_SHORT).show();
-                        Log.d("Error", error.toString());
-                        Log.e("goal","error");
-                    }) {
-                        @Nullable
-                        @Override
-                        protected Map<String, String> getParams() throws AuthFailureError {
-                            Map<String, String> data = new HashMap<>();
-                            data.put("clientuserID",DataFromDatabase.clientuserID );
-                            data.put("goal",String.valueOf(goalVal));
-                            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd H:m:s");
-                            LocalDateTime now = LocalDateTime.now();
-                            data.put("dateandtime",dtf.format(now));
-                            return data;
-                        }
-                    };
-                    stringRequest.setRetryPolicy(new DefaultRetryPolicy(
-                            30000,
-                            DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-                    Volley.newRequestQueue(requireContext()).add(requestGoal);
-                    dialog.dismiss();
-                });
-                dialog.show();
-            }
-        });
-
-
-        imgback.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (getArguments() != null && getArguments().getBoolean("notification") /* coming from notification */) {
-                    startActivity(new Intent(getActivity(), DashBoardMain.class));
-                    requireActivity().finish();
-                } else {
-                    Navigation.findNavController(v).navigate(R.id.action_stepTrackerFragment_to_dashBoardFragment);
-                    FragmentManager manager = getActivity().getSupportFragmentManager();
-                    manager.popBackStack();
-                }
-            }
-        });
-
-        reminder.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.action_stepTrackerFragment_to_stepReminderFragment));
-
-//        final Handler handler = new Handler();
-//        final int delay = 1000; // 1000 milliseconds == 1 second
-//
-//        handler.postDelayed(new Runnable() {
-//            public void run() {
-//                System.out.println(FetchTrackerInfos.stepsWalked);
-//                if (!FetchTrackerInfos.stepsWalked.isEmpty()){
-//                        steps_label.setText(FetchTrackerInfos.currentSteps);
-//                }
-//                handler.postDelayed(this, delay);
-//            }
-//        }, delay);
-        return view;
     }
 
-    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            updateGUI(intent);
-            updateStepCard.updateStepCardData(intent);
-        }
-    };
+    private void saveGoal(int goalValue) {
 
-    public boolean foregroundServiceRunning() {
-        ActivityManager activityManager = (ActivityManager) getActivity().getSystemService(Context.ACTIVITY_SERVICE);
-        for (ActivityManager.RunningServiceInfo service : activityManager.getRunningServices(Integer.MAX_VALUE)) {
-            if (MyService.class.getName().equals(service.service.getClassName())) {
-                return true;
-            }
-        }
-        return false;
     }
 
-    private void updateGUI(Intent intent) {
-        Log.d("gui", "entered");
-        if (intent.getExtras() != null) {
-            float steps = intent.getIntExtra("steps", 0);
-            Log.i("StepTracker", "Countdown seconds remaining:" + steps);
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    goalPercent = ((steps / goalVal) * 100) / 100;
-                    System.out.println("steps: " + steps);
-                    System.out.println("goalVal: " + goalVal);
-                    System.out.println("goalPercent: " + goalPercent);
-                    progressBar.setProgress(goalPercent);
-                    int stepText = (int) Math.min(steps, goalVal);
+    @Override
+    public void onStart() {
+        super.onStart();
 
-                    steps_label.setText(String.valueOf((int) stepText));
-                    distance.setText(String.format("%.2f", (steps / 1312.33595801f)));
-                    calories.setText(String.format("%.2f", (0.04f * steps)));
-                    Date date = new Date();
-
-
-
-                    SimpleDateFormat hour = new SimpleDateFormat("HH");
-                    SimpleDateFormat mins = new SimpleDateFormat("mm");
-
-                    int h = Integer.parseInt(hour.format(date));
-                    int m = Integer.parseInt(mins.format(date));
-
-                    int time = h + (m / 60);
-                    Toast.makeText(requireContext(), String.valueOf(steps), Toast.LENGTH_SHORT).show();
-                    speed.setText(String.format("%.2f", (steps / 1312.33595801f) / time));
-                    System.out.println("steps: " + 0.04f * steps);
-                    System.out.println("steps/time: " + (steps / 1312.33595801f) / time);
-
-                }
-            }, 5000);
-
-        }
+    }
+    @Override
+    public void onStop() {
+        LocalBroadcastManager.getInstance(requireContext()).unregisterReceiver(stepCountReceiver);
+        super.onStop();
     }
 
+    @SuppressLint("Range")
     @Override
     public void onResume() {
         super.onResume();
-        getActivity().registerReceiver(broadcastReceiver, new IntentFilter("com.example.infits"));
-        Log.i("Steps", "Registered broadcast receiver");
-    }
 
+        currentPreferences = getActivity().getSharedPreferences("CURRENTSTEP", MODE_PRIVATE);
+        int currentStepsVal = currentPreferences.getInt("key2", 0);
+        stepCountTextView.setText(String.valueOf(currentStepsVal));
+                    float stepPercent = GoalSteps == 0 ? 0 : (int) ((currentStepsVal * 100) / GoalSteps);
+            double stepPercent1 = Math.min(100, Math.max(0, stepPercent));
+                    progressBar.setProgress((float) stepPercent1 / 100);
 
+        LocalBroadcastManager.getInstance(requireContext())
+                .registerReceiver(stepCountReceiver, new IntentFilter("step-count-update"));
+        LocalBroadcastManager.getInstance(requireContext())
+                .registerReceiver(averageSpeedAndDistanceReceiver, new IntentFilter("averageSpeed-and-distance-update"));
+        if (stepCounterSensor == null) {
+            Toast.makeText(requireContext(), "Step counter sensor not available", Toast.LENGTH_SHORT).show();
+        }
+//        if (currentsteps>=GoalSteps && GoalSteps>0)
+//        {
+//            sensorManager.unregisterListener(this);
+////            stepCountTextView.setText(String.valueOf(currentsteps));
+////            int stepPercent = GoalSteps == 0 ? 0 : (int) ((currentsteps * 100) / GoalSteps);
+////            progressBar.setProgress(stepPercent);
+//            Toast.makeText(requireContext(), "You have reached goal", Toast.LENGTH_SHORT).show();
+//        }
+//        else {
 
-
-
-
-
-
-
-    public  void getPermission_Body()
-    {
-        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.BODY_SENSORS) == PackageManager.PERMISSION_GRANTED) {
-            // Permission already granted, proceed with your activity logic
-            // ...
-        } else {
-            // Permission not yet granted, request it from the user
-            ActivityCompat.requestPermissions(getActivity(),
-                    new String[]{Manifest.permission.BODY_SENSORS, Manifest.permission.ACTIVITY_RECOGNITION},PERMISSION_REQUEST_ALL_SENSORS);
+        int stepPercent2 = GoalSteps == 0 ? 0 : (int) ((currentStepsVal * 100) / GoalSteps);
+//        if (stepPercent1>100)
+//        {
+//            sensorManager.unregisterListener(this);
+//        }
+//         if(stepPercent2>=100){
+//            // int stepPercent = GoalSteps == 0 ? 0 : (int) ((currentsteps * 100) / GoalSteps);
+//          //  int stepPercent1 = GoalSteps == 0 ? 0 : (int) ((GoalSteps * 100) / GoalSteps);
+//          //  progressBar.setProgress(stepPercent1/100);
+//          //   sensorManager.unregisterListener(this);
+//            Toast.makeText(requireContext(), "You have reached goal", Toast.LENGTH_SHORT).show();
+//        }
+//
+//        float stepPercent = GoalSteps == 0 ? 0 : (int) ((currentsteps * 100) / GoalSteps);
+//        double stepPercent1 = Math.min(100, Math.max(0, stepPercent));
+        if (stepPercent >= 100) {
+            // stepCountTextView.setText(String.valueOf(currentsteps));
+            // int stepPercent = GoalSteps == 0 ? 0 : (int) ((currentsteps * 100) / GoalSteps);
+            //  int stepPercent1 = GoalSteps == 0 ? 0 : (int) ((GoalSteps * 100) / GoalSteps);
+            // progressBar.setProgress(stepPercent/100);
+            Toast.makeText(requireContext(), "You have reached goal", Toast.LENGTH_SHORT).show();
         }
 
-
-    }
-
+        startTracking();
 
 
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-
-
-        if (requestCode == PERMISSION_REQUEST_ACTIVITY_RECOGNITION) {
-            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permission is granted, start listening to activity updates
-
-            } else {
-                // Permission is denied, show an error message
-                Log.d("error in physical activity permission", "");
-            }
-        }
+        //}
     }
 
     @Override
-    public void updateStepCardData(Intent intent) {
-        updateGUI(intent);
+    public void onPause() {
+        super.onPause();
+//        sensorManager.unregisterListener(this);
+        // getActivity().unregisterReceiver(goalReachedReceiver);
     }
 
-    private void updateDetails(){
-        if (FetchTrackerInfos.currentSteps > 1) {
 
-            String url = "https://infits.in/androidApi/updateStepFragmentDetails.php";
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, url, response -> {
-                Log.e("calorieUpdate", "success");
-                Toast.makeText(requireActivity(), "Details Updated in DB", Toast.LENGTH_SHORT).show();
-            },
-                    error -> {
-                        Log.e("calorieUpdate", "fail");
-                        Log.e("calorieUpdate", error.toString());
-                        Toast.makeText(requireActivity(), error.toString(), Toast.LENGTH_SHORT).show();
-                    }) {
-                @SuppressLint("DefaultLocale")
-                @Nullable
-                @Override
-                protected Map<String, String> getParams() throws AuthFailureError {
-                    Map<String, String> data = new HashMap<>();
-                    data.put("clientuserID", DataFromDatabase.clientuserID);
-                    data.put("steps", FetchTrackerInfos.currentSteps + "");
-                    data.put("distance", String.format("%.3f", (FetchTrackerInfos.Distance)));
-                    data.put("calories", String.format("%.2f", (FetchTrackerInfos.Calories)));
-                    data.put("avgspeed", FetchTrackerInfos.Avg_speed.substring(0, 1));
-                    data.put("goal", goal_step_count.getText().toString());
-                    LocalDateTime now = LocalDateTime.now();
-                    data.put("dateandtime", dtf.format(now));
-                    return data;
-                }
-            };
-            stringRequest.setRetryPolicy(new DefaultRetryPolicy(
-                    30000,
-                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-            Volley.newRequestQueue(requireContext()).add(stringRequest);
+//
+//    @SuppressLint("Range")
+//    @Override
+//    public void onSensorChanged(SensorEvent sensorEvent) {
+//        if (sensorEvent.sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
+//            steps = (int) sensorEvent.values[0];
+//            currentsteps = steps - previousStepCount;
+//            currentPreferences = requireContext().getSharedPreferences("CURRENTSTEP", MODE_PRIVATE);
+//            SharedPreferences.Editor editor = currentPreferences.edit();
+//            editor.putInt("key2", currentsteps);
+//            editor.apply();
+//            float stepPercent = GoalSteps == 0 ? 0 : (int) ((currentsteps * 100) / GoalSteps);
+//            double stepPercent1 = Math.min(100, Math.max(0, stepPercent));
+//
+//
+//            //  if(stepPercent<=100 &&stepPercent>=0){
+////            if (stepPercent1 == 0) {
+////                stepPercent1 = 0.1; // Set a minimum value to prevent 0% display
+////            }
+//
+//
+//            if (stepPercent>=100) {
+////                Intent goalReachedIntent = new Intent("GOAL_REACHED");
+////                requireActivity().sendBroadcast(goalReachedIntent);
+//                setAlarm();
+//            }
+//            viewModel.setStepCount(currentsteps);
+//           // stepCountTextView.setText(String.valueOf(currentsteps));
+//            // int stepPercent = GoalSteps == 0 ? 0 : (int) ((currentsteps * 100) / GoalSteps);
+//            // stepPercent = stepPercent/100;
+//            progressBar.setProgress((float) stepPercent1 / 100);
+//
+//        }
+//    }
+
+//    @Override
+//    public void onAccuracyChanged(Sensor sensor, int i) {
+//
+//    }
+
+
+    private void startTracking() {
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACTIVITY_RECOGNITION)
+                == PackageManager.PERMISSION_GRANTED) {
+            steps = 0;
+            //sensorManager.registerListener(this, stepCounterSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        } else {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACTIVITY_RECOGNITION}, SENSOR_PERMISSION_REQUEST);
         }
     }
-    public static String loadTotalFromPrefString(Context context,final String key) {
-        SharedPreferences pref = context.getSharedPreferences(MY_PREFERENCE_NAME, Context.MODE_PRIVATE);
-        return pref.getString(key, "");
-    }
-    public static void saveTotalInPref(Context context, String id,final String key) {
-        SharedPreferences pref = context.getSharedPreferences(MY_PREFERENCE_NAME, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = pref.edit();
-        editor.putString(key,id);
+
+    private void saveData() {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("SAVEDATA", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("key1", previousStepCount);
         editor.apply();
+
     }
+
+    private void loadData() {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("SAVEDATA", MODE_PRIVATE);
+        int savenumber = sharedPreferences.getInt("key1", 0);
+        previousStepCount = savenumber;
+    }
+
+    private void resetSteps() {
+        stepCountTextView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                previousStepCount = steps;
+                stepCountTextView.setText("0");
+                progressBar.setProgress(0);
+                saveData();
+//                currentPreferences = getActivity().getSharedPreferences("CURRENTSTEP", MODE_PRIVATE);
+//                SharedPreferences.Editor editor1 = currentPreferences.edit();
+//                editor1.putInt("key2", 0);
+//                editor1.apply();
+                return true;
+            }
+        });
+    }
+
+//    private class GoalReachedReceiver extends BroadcastReceiver {
+//        @Override
+//        public void onReceive(Context context, Intent intent) {
+//            if ("GOAL_REACHED".equals(intent.getAction())) {
+////                SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+//                boolean notificationSent = notificationsharedPreferences.getBoolean("notification_sent", false);
+//                // Goal reached, show a notification
+//                if (!notificationSent) {
+//                    // Create and send the notification
+//                    // ...
+//                    showNotification("Goal Reached", "Congratulations, you've reached your step goal!");
+//                    // Mark that the notification has been sent to avoid showing it again
+//                    SharedPreferences.Editor editor = notificationsharedPreferences.edit();
+//                    editor.putBoolean("notification_sent", true);
+//                    editor.apply();
+//                }
+//
+//            }
+//        }
+//    }
+    private void showNotification(String title, String content) {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "My Notification Channel";
+            String description = "Description for my notification channel";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            NotificationManager notificationManager = getActivity().getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(getActivity().getApplicationContext(), NOTIFICATION_CHANNEL_ID)
+                .setSmallIcon(R.drawable.alarm_png)
+                .setContentTitle(title)
+                .setContentText(content)
+                .setPriority(NotificationCompat.PRIORITY_HIGH);
+
+        // Create an intent to open the app when the notification is tapped
+        Intent intent = new Intent(requireContext(), MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(requireContext(), 0, intent, PendingIntent.FLAG_IMMUTABLE);
+        builder.setContentIntent(pendingIntent);
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(requireContext());
+        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        notificationManager.notify(1, builder.build());
+    }
+    private void setAlarm() {
+        AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+//        Intent intent = new Intent(this, YourNotificationReceiver.class); // Replace with your BroadcastReceiver
+        Intent goalReachedIntent = new Intent("GOAL_REACHED");
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(requireContext(), 0, goalReachedIntent, PendingIntent.FLAG_IMMUTABLE);
+
+        // requireActivity().sendBroadcast(goalReachedIntent);
+        // Set the alarm to trigger immediately
+        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), pendingIntent);
+    }
+
 }

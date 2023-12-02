@@ -1,13 +1,14 @@
 package com.example.infits;
+import static android.content.Context.MODE_PRIVATE;
 import static com.example.infits.StepTrackerFragment.goalVal;
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -29,11 +30,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.work.ExistingPeriodicWorkPolicy;
-import androidx.work.PeriodicWorkRequest;
-import androidx.work.WorkManager;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -45,14 +46,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import com.bumptech.glide.Glide;
 
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
+
 public class DashBoardFragment extends Fragment {
 
     //String urlRefer = String.format("%sverify.php",DataFromDatabase.ipConfig);
@@ -60,6 +59,7 @@ public class DashBoardFragment extends Fragment {
 
 
     String Entered;
+//    private StepCounterViewModel viewModel;
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd H:m:S", Locale.getDefault());
 
     SimpleDateFormat caloriedateFormat = new SimpleDateFormat("yyyy-MM-dd H:m:S", Locale.getDefault());
@@ -78,6 +78,8 @@ public class DashBoardFragment extends Fragment {
     // String url1 = String.format("%sprofilePicture.php", DataFromDatabase.ipConfig);
 
     TextView stepstv;
+    private int stepCount;
+    private int newgoal;
     TextView glassestv;
     TextView glassesGoaltv;
     TextView sleeptv;
@@ -145,7 +147,7 @@ public class DashBoardFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+//        viewModel = new ViewModelProvider(requireActivity()).get(StepCounterViewModel.class);
 //        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
 //            @Override
 //            public void handleOnBackPressed() {
@@ -153,7 +155,8 @@ public class DashBoardFragment extends Fragment {
 //            }
 //        };
 //        requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
-
+        LocalBroadcastManager.getInstance(requireContext())
+                .registerReceiver(stepCountReceiver, new IntentFilter("step-count-update"));
     }
 
     @Override
@@ -165,6 +168,9 @@ public class DashBoardFragment extends Fragment {
 
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("DateForSteps", Context.MODE_PRIVATE);
 
+//        SharedPreferences mySharedPreferences = getActivity().getSharedPreferences("GOAL",MODE_PRIVATE);
+//        float goalVaulue = mySharedPreferences.getFloat("goalValue", 0f);
+//        stepstv.setText(goalVaulue+"");
 
         Date dateForSteps = new Date();
 
@@ -271,18 +277,46 @@ public class DashBoardFragment extends Fragment {
         });
 
         stepcard.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.action_dashBoardFragment_to_stepTrackerFragment));
+        SharedPreferences   stepPrefs1 = PreferenceManager.getDefaultSharedPreferences(requireContext());
+        //
+        SharedPreferences sharedPreferences2 = getActivity().getSharedPreferences("GOALVALUE",MODE_PRIVATE);
+        newgoal = sharedPreferences2.getInt("goalValue",0);
+        SharedPreferences sharedPreferences1 = getActivity().getSharedPreferences("CurrentSteps",MODE_PRIVATE);
+        float mycurrentsteps = sharedPreferences1.getFloat("currentsteps", 0f);
+        //  long mycurrentval = (long) mycurrentsteps;
+        SharedPreferences  currentPreferences= getActivity().getSharedPreferences("CURRENTSTEP",MODE_PRIVATE);
+        int currentsteps = currentPreferences.getInt("key2", 0);
+        //
 
+        float goal = stepPrefs1.getFloat("goal", 0f);
+        long longval = (long) goal;
         SharedPreferences stepPrefs = PreferenceManager.getDefaultSharedPreferences(requireContext());
         float stepGoal = stepPrefs.getFloat("goal", 0f);
-        int stepPercent = stepGoal == 0 ? 0 : (int) ((FetchTrackerInfos.currentSteps * 100) / stepGoal);
+       //int stepPercent = stepGoal == 0 ? 0 : (int) ((FetchTrackerInfos.currentSteps * 100) / stepGoal);
+       int stepPercent = newgoal == 0 ? 0 : (int) ((currentsteps * 100) / newgoal);
         String stepText = stepGoal == 0 ? "----------" : (int) stepGoal + " Steps";
+        stepPercent =Math.min(100, Math.max(0, stepPercent));
         String stepPercentText = stepPercent + "%";
         Log.d("frag", String.valueOf(FetchTrackerInfos.currentSteps));
         Log.d("frag", String.valueOf(stepGoal));
         Log.d("frag", String.valueOf(stepPercent));
-        if (FetchTrackerInfos.currentSteps > 1)
-            stepstv.setText(FetchTrackerInfos.currentSteps+" steps");
-        else stepstv.setText("--------");
+
+        //viewModel.getStepCountLiveData().observe(getViewLifecycleOwner(), new Observer<Integer>() {
+//            @Override
+//            public void onChanged(Integer stepCount) {
+//                // Update your UI with the latest stepCount value
+//                // Example: Update a TextView
+//                // textView.setText("Step Count: " + stepCount);
+//               //   stepstv.setText(String.valueOf(stepCount));
+//            }
+//        });
+//
+//        //if (longval >= 1) {
+//        if(newgoal>=1){
+           // stepstv.setText(FetchTrackerInfos.currentSteps+" steps");
+            stepstv.setText(String.valueOf(newgoal));
+        //}
+       // else stepstv.setText("--------");
         stepsProgressPercent.setText(stepPercentText);
         stepsProgressBar.setProgress(stepPercent);
 
@@ -536,6 +570,19 @@ public class DashBoardFragment extends Fragment {
         }
         return view;
     }
+    private BroadcastReceiver stepCountReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if ("step-count-update".equals(intent.getAction())) {
+                stepCount = intent.getIntExtra("stepCount", 0);
+                // Update UI with the new step count
+                float stepPercent = newgoal == 0 ? 0 : (int) ((stepCount * 100) / newgoal);
+                int stepPercent1 = (int) Math.min(100, Math.max(0, stepPercent));
+                stepsProgressBar.setProgress((int)  stepPercent1);
+                stepsProgressPercent.setText(stepPercent1+"%");
+            }
+        }
+    };
 
     public void setProfileImage(Drawable drawable) {
         profile.setImageDrawable(drawable);
@@ -960,6 +1007,7 @@ public class DashBoardFragment extends Fragment {
 
 
     }
+
 
 
 }

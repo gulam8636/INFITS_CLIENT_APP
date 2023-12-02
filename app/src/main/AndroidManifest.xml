@@ -3,6 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
@@ -390,8 +394,7 @@
         </activity>
 
         <service android:name=".MyService" />
-        <service android:name=".StepTrackerService" />
-
+        <service android:name=".customDialog.StepTrackerService" />
         <receiver android:name=".UpdateStepTracker" />
         <receiver android:name=".WaterNotificationReceiver" />
         <receiver android:name=".NotificationReceiver" />
@@ -418,6 +421,7 @@
 
             <intent-filter>
                 <action android:name="androidx.health.ACTION_SHOW_PERMISSIONS_RATIONALE" />
+<!--              //  <action android:name="ACTION_REQUEST_SCHEDULE_EXACT_ALARM" />-->
             </intent-filter>
         </activity>
         <activity android:name=".Activity_Todays_Breakfast" />
@@ -432,7 +436,9 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-        <!--<service android:name=".MyService" />-->
+<!--        //<service android:name=".customDialog.AlarmServices" />-->
+
+
     </application>
 
 </manifest>
