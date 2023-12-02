@@ -40,7 +40,7 @@ import java.io.InputStream;
  * create an instance of this fragment.
  */
 public class Section2Q4 extends Fragment {
-
+    //Android
     ImageButton imgBack;
     Button nextbtn;
     TextView backbtn, reporttv, textView79;
